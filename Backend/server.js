@@ -74,14 +74,14 @@ app.put('/tasks/:idtasks', async (req, res) => {
 // Delete a task
 app.delete('/tasks/:idtasks', async (req, res) => {
     const taskId = req.params.idtasks;
-
+  
     try {
-        await queryAsync('DELETE FROM tasks WHERE id = ?', taskId);
-        res.json({ message: 'Task deleted successfully' });
+      await queryAsync('DELETE FROM tasks WHERE idtasks = ?', taskId);
+      res.json({ message: 'Task deleted successfully' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+      res.status(500).json({ error: err.message });
     }
-});
+  });
 
 db.connect((err) => {
     if (err) {
@@ -89,7 +89,7 @@ db.connect((err) => {
     } else {
         console.log("MySQL database connected :)")
     }
-  })
+  });
 
 
 app.listen(port, () => {

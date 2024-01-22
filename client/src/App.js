@@ -23,9 +23,35 @@ const App = () => {
       .catch((error) => console.error("Error adding task:", error));
   };
 
+  const updateTask = (taskId, updatedTask) => {
+    axios
+      .put(`http://localhost:5000/tasks/${taskId}`, updatedTask)
+      .then(() => {
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.id === taskId ? { ...task, ...updatedTask } : task
+          )
+        );
+        alert("Task updated!");
+      })
+      .catch((error) => console.error("Error updating task:", error));
+  };
+
+
+  const deleteTask = (taskId) => {
+    axios
+      .delete(`http://localhost:5000/tasks/${taskId}`)
+      .then(() => {
+        setTasks(tasks.filter((task) => task.id !== taskId));
+        alert("Task deleted!");
+      })
+      .catch((error) => console.error("Error deleting task:", error));
+  };
+
+
   return (
     <div>
-      <h1>Project Task Tracker</h1>
+      <h1>Task Tracker</h1>
       <div>
         <input
           type="text"
@@ -38,15 +64,25 @@ const App = () => {
         <button onClick={addTask}>Add Task</button>
       </div>
       <ul>
+        
         {tasks.map((task) => (
-          <li key={task.idtasks}>
+          <li key={task.id}>
             {task.task_name}
-             {/* - Created at: {task.created_at} - Updated at:{" "}
-            {task.updated_at} */}
+            <button onClick={() => deleteTask(task.id)}>Delete</button>
+            <button
+              onClick={() => {
+                const updatedTaskName = prompt("Enter updated task name:");
+                if (updatedTaskName !== null) {
+                  updateTask(task.id, { task_name: updatedTaskName });
+                }
+              }}
+            >
+              Update
+            </button>
           </li>
         ))}
+        
       </ul>
-      
     </div>
   );
 };
