@@ -18,7 +18,7 @@ const App = () => {
       .then((response) => {
         setTasks([...tasks, { id: response.data.id, ...newTask }]);
         setNewTask({ task_name: "" });
-        alert("Task is added!")
+        alert("Task is added!");
       })
       .catch((error) => console.error("Error adding task:", error));
   };
@@ -37,7 +37,6 @@ const App = () => {
       .catch((error) => console.error("Error updating task:", error));
   };
 
-
   const deleteTask = (taskId) => {
     axios
       .delete(`http://localhost:5000/tasks/${taskId}`)
@@ -47,7 +46,6 @@ const App = () => {
       })
       .catch((error) => console.error("Error deleting task:", error));
   };
-
 
   return (
     <div>
@@ -64,7 +62,6 @@ const App = () => {
         <button onClick={addTask}>Add Task</button>
       </div>
       <ul>
-        
         {tasks.map((task) => (
           <li key={task.id}>
             {task.task_name}
@@ -81,7 +78,6 @@ const App = () => {
             </button>
           </li>
         ))}
-        
       </ul>
     </div>
   );
