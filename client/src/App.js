@@ -4,6 +4,9 @@ import axios from "axios";
 const App = () => {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState({ task_name: "" });
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [updatedTaskName, setUpdatedTaskName] = useState("");
+  const [taskIdToUpdate, setTaskIdToUpdate] = useState(null);
 
   useEffect(() => {
     axios
@@ -12,7 +15,15 @@ const App = () => {
       .catch((error) => console.error("Error fetching tasks:", error));
   }, []);
 
+  //Add task
+
   const addTask = () => {
+    // Check if the task name is not empty.
+
+    if (!newTask.task_name.trim()) {
+      alert("Task cannot be empty!");
+      return;
+    }
     axios
       .post("http://localhost:5000/tasks", newTask)
       .then((response) => {
@@ -23,28 +34,54 @@ const App = () => {
       .catch((error) => console.error("Error adding task:", error));
   };
 
-  const updateTask = (taskId, updatedTask) => {
+  // Update Task
+
+  const updateTask = () => {
+    if (!updatedTaskName.trim()) {
+      alert("Updated task name cannot be empty!");
+      return;
+    }
     axios
-      .put(`http://localhost:5000/tasks/${taskId}`, updatedTask)
+      .put(`http://localhost:5000/tasks/${taskIdToUpdate}`, {
+        task_name: updatedTaskName,
+      })
       .then(() => {
         setTasks((prevTasks) =>
           prevTasks.map((task) =>
-            task.id === taskId ? { ...task, ...updatedTask } : task
+            task.id === taskIdToUpdate
+              ? { ...task, task_name: updatedTaskName }
+              : task
           )
         );
+        setShowUpdateForm(false);
         alert("Task updated!");
       })
       .catch((error) => console.error("Error updating task:", error));
   };
 
+  //Delete Task
+
   const deleteTask = (taskId) => {
-    axios
-      .delete(`http://localhost:5000/tasks/${taskId}`)
-      .then(() => {
-        setTasks(tasks.filter((task) => task.id !== taskId));
-        alert("Task deleted!");
-      })
-      .catch((error) => console.error("Error deleting task:", error));
+    const alertDeleteProduct = window.confirm("Are you sure?");
+    if (alertDeleteProduct) {
+      axios
+        .delete(`http://localhost:5000/tasks/${taskId}`)
+        .then(() => {
+          setTasks(tasks.filter((task) => task.id !== taskId));
+          alert("Task deleted!");
+        })
+        .catch((error) => console.error("Error deleting task:", error));
+    } else {
+      alert("Something goes wrong with this task");
+    }
+  };
+
+  const toggleTaskCompletion = (taskId) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
 
   return (
@@ -61,24 +98,42 @@ const App = () => {
         />
         <button onClick={addTask}>Add Task</button>
       </div>
-      <ul>
+      <div>
         {tasks.map((task) => (
-          <li key={task.id}>
+          <div
+            key={task.id}
+            style={{ textDecoration: task.completed ? "line-through" : "none" }}
+          >
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => toggleTaskCompletion(task.id)}
+            />
             {task.task_name}
             <button onClick={() => deleteTask(task.id)}>Delete</button>
             <button
               onClick={() => {
-                const updatedTaskName = prompt("Enter updated task name:");
-                if (updatedTaskName !== null) {
-                  updateTask(task.id, { task_name: updatedTaskName });
-                }
+                setTaskIdToUpdate(task.id);
+                setShowUpdateForm(true);
               }}
             >
               Update
             </button>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
+
+      {showUpdateForm && (
+        <div>
+          <input
+            type="text"
+            placeholder="Updated task name"
+            value={updatedTaskName}
+            onChange={(e) => setUpdatedTaskName(e.target.value)}
+          />
+          <button onClick={updateTask}>Update Task</button>
+        </div>
+      )}
     </div>
   );
 };

@@ -41,7 +41,10 @@ app.get("/tasks", async (req, res) => {
 // Add a new task
 app.post("/tasks", async (req, res) => {
   const { task_name } = req.body;
-
+// Check if the task name is not empty
+  if (!task_name || task_name.trim() === "") {
+    return res.status(400).json({ error: "Task cannot be empty." });
+  }
   try {
     const result = await queryAsync(
       "INSERT INTO tasks (task_name) VALUES (?)",
