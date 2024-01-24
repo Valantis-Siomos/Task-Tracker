@@ -24,10 +24,10 @@
   margin-left: 300px;
 }
 
-/* .task {
-    display: flex;
-    justify-content:space-around;
-} */
+.task {
+  display: flex;
+  justify-content: space-around;
+}
 
 .upDateTaskPopUp {
   text-align: center;

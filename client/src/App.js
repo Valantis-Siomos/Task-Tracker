@@ -20,15 +20,23 @@ const App = () => {
 
   const addTask = () => {
     // Check if the task name is not empty.
-
     if (!newTask.task_name.trim()) {
       alert("Task cannot be empty!");
       return;
     }
+
+    const currentDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+
     axios
-      .post("http://localhost:5000/tasks", newTask)
+      .post("http://localhost:5000/tasks", {
+        task_name: newTask.task_name,
+        created_at: currentDate,
+      })
       .then((response) => {
-        setTasks([...tasks, { id: response.data.id, ...newTask }]);
+        setTasks([
+          ...tasks,
+          { id: response.data.id, ...newTask, created_at: currentDate },
+        ]);
         setNewTask({ task_name: "" });
         alert("Task is added!");
       })
@@ -42,15 +50,18 @@ const App = () => {
       alert("Updated task name cannot be empty!");
       return;
     }
+
+    const currentDate = new Date().toISOString().slice(0, 19).replace("T", " ");
     axios
       .put(`http://localhost:5000/tasks/${taskIdToUpdate}`, {
         task_name: updatedTaskName,
+        updated_at: currentDate,
       })
       .then(() => {
         setTasks((prevTasks) =>
           prevTasks.map((task) =>
             task.id === taskIdToUpdate
-              ? { ...task, task_name: updatedTaskName }
+              ? { ...task, task_name: updatedTaskName, updated_at: currentDate }
               : task
           )
         );
@@ -77,19 +88,20 @@ const App = () => {
     }
   };
 
-  const toggleTaskCompletion = (taskId) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
+  // const toggleTaskCompletion = (taskId) => {
+  //   setTasks((prevTasks) =>
+  //     prevTasks.map((task) =>
+  //       task.id === taskId ? { ...task, completed: !task.completed } : task
+  //     )
+  //   );
+  // };
 
   return (
     <div>
       <h1 className="title">Task Tracker</h1>
       <div className="input">
-        <input className="inputPlaceholder"
+        <input
+          className="inputPlaceholder"
           type="text"
           placeholder="Add your task here"
           value={newTask.task_name}
@@ -97,20 +109,24 @@ const App = () => {
             setNewTask({ ...newTask, task_name: e.target.value })
           }
         />
-        <button className="addButton" onClick={addTask}>ADD</button>
+        <button className="addButton" onClick={addTask}>
+          ADD
+        </button>
       </div>
       <div className="tasks">
         {tasks.map((task) => (
-          <div className="task"
+          <div
+            className="task"
             key={task.id}
             style={{ textDecoration: task.completed ? "line-through" : "none" }}
           >
-            <input
+            {/* <input
               type="checkbox"
               checked={task.completed}
               onChange={() => toggleTaskCompletion(task.id)}
-            />
-            {task.task_name}
+            /> */}
+            {task.task_name} &nbsp;&nbsp;&nbsp; Created at: {task.created_at}{" "}
+            &nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; Updated at: {task.updated_at}
             <button onClick={() => deleteTask(task.id)}>Delete</button>
             <button
               onClick={() => {
