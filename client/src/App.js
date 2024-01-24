@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./App.css";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -86,21 +87,21 @@ const App = () => {
 
   return (
     <div>
-      <h1>Task Tracker</h1>
-      <div>
-        <input
+      <h1 className="title">Task Tracker</h1>
+      <div className="input">
+        <input className="inputPlaceholder"
           type="text"
-          placeholder="Task name"
+          placeholder="Add your task here"
           value={newTask.task_name}
           onChange={(e) =>
             setNewTask({ ...newTask, task_name: e.target.value })
           }
         />
-        <button onClick={addTask}>Add Task</button>
+        <button className="addButton" onClick={addTask}>ADD</button>
       </div>
-      <div>
+      <div className="tasks">
         {tasks.map((task) => (
-          <div
+          <div className="task"
             key={task.id}
             style={{ textDecoration: task.completed ? "line-through" : "none" }}
           >
@@ -124,10 +125,10 @@ const App = () => {
       </div>
 
       {showUpdateForm && (
-        <div>
+        <div className="upDateTaskPopUp">
           <input
             type="text"
-            placeholder="Updated task name"
+            placeholder="Updated your task"
             value={updatedTaskName}
             onChange={(e) => setUpdatedTaskName(e.target.value)}
           />
