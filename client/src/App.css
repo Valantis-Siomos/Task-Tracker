@@ -10,34 +10,81 @@
 
 .inputPlaceholder {
   border: 2px solid #000;
+  width: 200px;
+  border-radius: 10px 0px 0px 10px;
   padding: 5px 20px;
   min-width: 100px;
+  font-weight: bold;
+  box-shadow: 0px 0px 10px 3px  rgba(0, 0, 0, 0.418);
 }
 
 .tasks {
-  border: 1px solid rgb(5, 33, 161);
-  border-radius: 12px;
+  /* border: 1px solid rgba(0, 0, 0, 0.315);
+  border-radius: 12px; */
   text-align: center;
   margin-top: 50px;
   /* height: 200px; */
-  width: 70%;
+  max-width: 70%;
   margin-left: 300px;
 }
 
 .task {
   display: flex;
   justify-content: space-around;
+  /* border-bottom: 1px solid black; */
+  margin-top: 30px;
 }
 
 .upDateTaskPopUp {
   text-align: center;
 }
 
+.popUpPlaceholder {
+  width: 200px;
+  height: 20px;
+  border-radius: 10px 0px 0px 10px;
+}
+
+
+
+
+
+
+/* =========== buyttons ============ */
 .addButton {
   margin-left: 10px;
   cursor: pointer;
   padding: 5px 20px;
-  background-color: rgb(4, 172, 4);
-  color: white;
-  border-radius: 6px;
+  background-color: rgba(9, 206, 9, 0.61);
+  color: rgb(0, 0, 0);
+  border-radius: 0px 10px 10px 0px;
+  font-weight: bold;
+  box-shadow: 0px 0px 10px 3px  rgba(0, 0, 0, 0.418);
 }
+
+.updateBtn {
+  margin-right: 100px;
+  width: 60px;
+  height: 25px;
+  border-radius: 6px;
+  background-color: rgba(2, 225, 255, 0.603);
+}
+
+.deleteBtn {
+  margin-left: 100px;
+  width: 60px;
+  height: 25px;
+  border-radius: 6px;
+  background-color: rgba(255, 0, 0, 0.815);
+}
+
+.popUpUpdateBtn {
+  border-radius: 6px;
+  margin-left: 20px;
+  border-radius: 0px 10px 10px 0px;
+  height: 25px;
+  background-color: rgba(2, 225, 255, 0.603);
+}
+
+
+/* ================= buttons =============== */

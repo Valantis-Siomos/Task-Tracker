@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -103,7 +106,7 @@ const App = () => {
         <input
           className="inputPlaceholder"
           type="text"
-          placeholder="Add your task here"
+          placeholder="What is your task for today?"
           value={newTask.task_name}
           onChange={(e) =>
             setNewTask({ ...newTask, task_name: e.target.value })
@@ -125,16 +128,20 @@ const App = () => {
               checked={task.completed}
               onChange={() => toggleTaskCompletion(task.id)}
             /> */}
-            {task.task_name} &nbsp;&nbsp;&nbsp; Created at: {task.created_at}{" "}
-            &nbsp;&nbsp; - &nbsp;&nbsp;&nbsp; Updated at: {task.updated_at}
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
+            {task.task_name} &nbsp;&nbsp;&nbsp; <strong>Created at:</strong>{" "}
+            {task.created_at} &nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;{" "}
+            <strong>Created at:</strong> {task.updated_at}
+            <button className="deleteBtn" onClick={() => deleteTask(task.id)}>
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
             <button
+              className="updateBtn"
               onClick={() => {
                 setTaskIdToUpdate(task.id);
                 setShowUpdateForm(true);
               }}
             >
-              Update
+              <FontAwesomeIcon icon={faEdit} />
             </button>
           </div>
         ))}
@@ -143,12 +150,15 @@ const App = () => {
       {showUpdateForm && (
         <div className="upDateTaskPopUp">
           <input
+            className="popUpPlaceholder"
             type="text"
-            placeholder="Updated your task"
+            placeholder="Update your task"
             value={updatedTaskName}
             onChange={(e) => setUpdatedTaskName(e.target.value)}
           />
-          <button onClick={updateTask}>Update Task</button>
+          <button className="popUpUpdateBtn" onClick={updateTask}>
+            Update Task
+          </button>
         </div>
       )}
     </div>
