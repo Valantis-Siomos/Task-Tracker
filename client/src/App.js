@@ -3,7 +3,7 @@ import axios from "axios";
 import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -129,8 +129,8 @@ const App = () => {
               onChange={() => toggleTaskCompletion(task.id)}
             /> */}
             {task.task_name} &nbsp;&nbsp;&nbsp; <strong>Created at:</strong>{" "}
-            {task.created_at} &nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;{" "}
-            <strong>Created at:</strong> {task.updated_at}
+            {task.created_at} &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{" "}
+            <strong>Updated at:</strong> {task.updated_at}
             <button className="deleteBtn" onClick={() => deleteTask(task.id)}>
               <FontAwesomeIcon icon={faTrash} />
             </button>
