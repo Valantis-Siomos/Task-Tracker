@@ -28,6 +28,12 @@ const App = () => {
       return;
     }
 
+     // Check if the maximum number of tasks (7) has been reached.
+  if (tasks.length >= 7) {
+    alert("You can only have 7 tasks.");
+    return;
+  }
+
     const currentDate = new Date().toISOString().slice(0, 19).replace("T", " ");
 
     axios
