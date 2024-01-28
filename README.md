@@ -2,7 +2,7 @@
 
 This project is a simple Task Tracker application built using Express.js and React. It allows users to add, update, delete, and view tasks. The backend is developed using Express.js with MySQL as the database, and the frontend is built using React.
 
-![Home](./Home.png)
+![Home](./client//src//assets/Home.png)
 
 ## Features:
 
